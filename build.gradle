@@ -1,0 +1,103 @@
+/* buildscript（已过时）：必须位于plugins块和apply plugin之前。
+ gradle在执行脚本时，会优先执行buildscript代码块中的内容，然后才会执行剩余的build脚本。
+ buildscript代码块中的repositories和dependencies的使用方式与直接在build.gradle文件中的使用方式几乎完全一样。
+ 唯一不同之处是在buildscript代码块中你可以对dependencies使用classpath声明。
+ classpath声明说明了在执行其余的build脚本时，classloader可以使用这些你提供的依赖项。
+ 这也正是我们使用buildscript代码块的目的。某种意义上来说，classpath声明的依赖，不会编译到最终的jar包里面。*/
+//buildscript {
+//	// ext代码块是提供给用户自定义属性用的，一般用来定义版本，实现版本的集中管理
+//	ext {
+//		springBootVersion = '3.2.0.RELEASE'
+//	}
+//	// 依赖库
+//	repositories {
+//		// 优先使用本地的maven仓库
+//		mavenLocal()
+//		jcenter()
+//		mavenCentral()
+//		maven { url "https://repo.spring.io/plugins-release" }
+//		maven { name "Alibaba"; url 'https://maven.aliyun.com/repository/public' }
+//		maven { name "Bstek"; url 'http://nexus.bsdn.org/content/groups/public/' ;allowInsecureProtocol = true}
+//		maven { name "M2"; url 'https://plugins.gradle.org/m2/' }
+//	}
+//	// 依赖列表
+//	dependencies {
+//		// 让spring-boot支持gradle
+//		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+//
+//	}
+//}
+
+/* plugins块导入的是Gradle官方插件仓库里的插件，如果指定第三方库作为Gradle插件的话，指定插件就需要使用apply plugin
+ plugins块不能放在多项目配置块（allProjects, subProjects）中，apply plugin则可以
+ 因为java是核心插件，所以不用指定版本，而org.springframework.boot是社区插件，必须指定版本*/
+plugins {
+	id 'idea'
+	id 'java'
+	id 'groovy'
+	id 'maven-publish'
+	id 'org.springframework.boot' version '3.2.0'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.joker.just4fun'
+version = '1.0-SNAPSHOT'
+
+/* 指定java版本
+ sourceCompatibility：指定编译编译.java文件的jdk版本
+ targetCompatibility：确保.class文件与targetCompatibility指定版本，或者更新的java虚拟机兼容
+ 1.sourceCompatibility关系到项目使用到的Java语法特性及库
+ 2.sourceCompatibility不能比targetCompatibility大
+ 3.targetCompatibility不能比目标客户端运行环境的JavaVersion大
+ 4.targetCompatibility不能比当前Gradle使用的JavaVersion大
+ 代码用的语言特性对应的JavaVersion ≦ sourceCompatibility ≦ targetCompatibility ≦ Gradle使用的JavaVersion ≦ 客户端环境的JavaVersion*/
+java {
+	sourceCompatibility = '17'
+	targetCompatibility = '17'
+}
+
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+/*依赖库*/
+repositories {
+	// 优先使用本地的maven仓库
+	mavenLocal()
+	jcenter()
+	mavenCentral()
+	maven { url "https://repo.spring.io/plugins-release" }
+	maven { name "Alibaba"; url 'https://maven.aliyun.com/repository/public' }
+	maven { name "Bstek"; url 'http://nexus.bsdn.org/content/groups/public/'; allowInsecureProtocol = true}
+	maven { name "M2"; url 'https://plugins.gradle.org/m2/' }
+}
+
+/*依赖列表*/
+dependencies {
+	/*api（等同于compile，compile已弃用）：使用该方式修饰的依赖将会参与编译和打包，且可以传递
+	 implementation：此方式修饰的依赖在编译时只能在当前模块中访问，也就是将该依赖隐藏在内部，而不对外部公开
+	 compileOnly：只在编译时有效，不会参与打包
+	 runtimeOnly：与compileOnly相反，它修饰的依赖不会添加到编译路径，但参与打包，运行时有效
+	 annotationProcessor：用于注解处理器的依赖配置
+	 testImplementation：由java插件提供，仅针对测试代码[src/test目录]*/
+	implementation 'org.apache.groovy:groovy'
+	implementation 'org.springframework.boot:spring-boot-starter-groovy-templates'
+	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'com.alibaba:druid:1.2.20'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2'
+}
+
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}

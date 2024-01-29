@@ -1,0 +1,27 @@
+plugins {
+    id "com.gradle.enterprise" version "3.2"
+}
+
+dependencyResolutionManagement {
+    //repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        // 优先使用本地的maven仓库
+        mavenLocal()
+        jcenter()
+        mavenCentral()
+        maven { url "https://repo.spring.io/plugins-release" }
+        maven { name "Alibaba"; url 'https://maven.aliyun.com/repository/public' }
+        maven { name "Bstek"; url 'http://nexus.bsdn.org/content/groups/public/'; allowInsecureProtocol = true}
+        maven { name "M2"; url 'https://plugins.gradle.org/m2/' }
+    }
+}
+
+rootProject.name = 'clown-crawler'
+
+/*接受许可证协议*/
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+    }
+}

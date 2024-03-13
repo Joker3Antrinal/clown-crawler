@@ -1,8 +1,8 @@
 # 应用服务web端访问配置
 server:
-  port: 8080
+  port: 7021
   address: 0.0.0.0
-  servlet.context-path: /clownCrawler/api
+  servlet.context-path: /clownCrawler
 
 
 spring:

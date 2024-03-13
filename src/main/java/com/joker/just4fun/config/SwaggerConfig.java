@@ -50,8 +50,8 @@ import org.springframework.boot.SpringBootConfiguration;
         ),
         /*API接口文档服务地址*/
         servers = {
-                @Server(url = "http://127.0.0.1/swagger/", description = "swagger server 1"),
-//                @Server(url = "http://127.0.0.1/swagger/", description = "swagger server 2"),
+                @Server(url = "http://127.0.0.1:7021/clownCrawler/", description = "swagger server 1"),
+//                @Server(url = "http://127.0.0.1:7022/clownCrawler/", description = "swagger server 2"),
         },
         security = @SecurityRequirement(name = "Swagger-JWT"),//引入定义好的权限认证方案
         externalDocs = @ExternalDocumentation(description = "访问此链接以获取更多", url = "https://swagger.io/")

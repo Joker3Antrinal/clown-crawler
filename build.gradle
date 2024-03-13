@@ -44,8 +44,8 @@ group = 'com.joker.just4fun'
 version = '1.0-SNAPSHOT'
 
 /* 指定java版本
- sourceCompatibility：指定编译编译.java文件的jdk版本
- targetCompatibility：确保.class文件与targetCompatibility指定版本，或者更新的java虚拟机兼容
+ sourceCompatibility：指定编译编译.java文件的jdk版本（Java源代码兼容的版本）
+ targetCompatibility：Java目标字节码的版本，确保.class文件与targetCompatibility指定版本，或者更新的java虚拟机兼容
  1.sourceCompatibility关系到项目使用到的Java语法特性及库
  2.sourceCompatibility不能比targetCompatibility大
  3.targetCompatibility不能比目标客户端运行环境的JavaVersion大
@@ -85,17 +85,29 @@ dependencies {
 	 testImplementation：由java插件提供，仅针对测试代码[src/test目录]*/
 	implementation 'org.apache.groovy:groovy'
 	implementation 'org.springframework.boot:spring-boot-starter-groovy-templates'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	//	数据源相关
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'com.alibaba:druid-spring-boot-starter:1.2.15'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+	implementation 'com.baomidou:mybatis-plus-boot-starter:3.5.3.1'
+	implementation 'com.baomidou:mybatis-plus-generator:3.5.3.1'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.2.0'
+	//	工具类相关
 	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'com.alibaba:druid:1.2.20'
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
+	implementation 'org.apache.velocity:velocity-engine-core:2.3'
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	implementation 'cn.hutool:hutool-json:5.8.25'
+	implementation 'org.realityforge.org.jetbrains.annotations:org.jetbrains.annotations:1.7.0'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+	/********************分隔线********************/
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2'
+	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
 }
 
 //tasks.named('test') {

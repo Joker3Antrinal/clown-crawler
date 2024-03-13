@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true -->
+<!-- scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟 -->
+<!-- debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false -->
+<configuration scan="true" scanPeriod="10 seconds" debug="false">
+
+    <contextName>logback-spring</contextName>
+
+    <!-- property全局变量设置，方便插值引用 -->
+    <property name="LOG_HOME" value="d:/app/logs" />
+    <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+
+    <!-- 日志输出到控制台的appender设置 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 控制台日志设置内容级别，选用较低级别方便排查问题。
+        注意：基于Spring Boot优先读取原则，application.yml中的日志级别配置通常会覆盖掉logback配置文件中相同logger的级别设置 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- debug日志输出到文件的appender设置 -->
+    <appender name="debugFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<!--        <file>${LOG_HOME}/debug/debug.log</file>-->
+        <!-- rollingPolicy:当发生滚动时，决定RollingFileAppender的行为，涉及文件移动和重命名 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/debug/app_%d{yyyyMMddSSS}_%i.log</fileNamePattern>
+            <!-- TimeBasedRollingPolicy:根据时间制定滚动策略 -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 日志文件保留天数 -->
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- error日志输出到文件的appender设置 -->
+    <appender name="errorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<!--        <file>${LOG_HOME}/error/error.log</file>-->
+        <!-- rollingPolicy:当发生滚动时，决定RollingFileAppender的行为，涉及文件移动和重命名 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/error/app_%d{yyyyMMddSSS}_%i.log</fileNamePattern>
+            <!-- TimeBasedRollingPolicy:根据时间制定滚动策略 -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 日志文件保留天数 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- <logger>用来设置某一个包或者具体的某一个类的日志打印级别、以及指定<appender>。
+    <logger>有一个name属性，一个可选的level和一个可选的additivity属性。
+    name:用来指定受此logger约束的某一个包或者具体的某一个类。
+    level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF。
+    特殊值：INHERITED或者NULL，代表强制执行上级的级别。如果未设置此属性，那么当前logger将会继承上级的级别。
+    additivity:是否向上级logger传递打印信息，默认值是true。 -->
+    <!-- 开发环境 -->
+    <springProfile name="dev">
+        <property name="LOG_HOME" value="d:/app/logs" />
+        <logger name="net.common" level="DEBUG" />
+        <logger name="java.sql.Statement" level="DEBUG" />
+        <logger name="java.sql.PreparedStatement" level="DEBUG" />
+        <logger name="java.sql.Connection" level="DEBUG" />
+        <logger name="org.springframework" level="ERROR" />
+    </springProfile>
+
+    <!-- 测试环境 -->
+    <springProfile name="test">
+        <property name="LOG_HOME" value="/var/log/app_test/logs" />
+        <logger name="net.common" level="DEBUG" />
+        <logger name="java.sql.Statement" level="DEBUG" />
+        <logger name="java.sql.PreparedStatement" level="DEBUG" />
+        <logger name="java.sql.Connection" level="DEBUG" />
+        <logger name="org.springframework" level="INFO" />
+    </springProfile>
+
+    <!-- 生产环境 -->
+    <springProfile name="prod">
+        <property name="LOG_HOME" value="/var/log/app_prod/logs" />
+        <logger name="net.common" level="ERROR" />
+        <logger name="java.sql.Statement" level="ERROR" />
+        <logger name="java.sql.PreparedStatement" level="ERROR" />
+        <logger name="java.sql.Connection" level="ERROR" />
+        <logger name="org.springframework" level="ERROR" />
+    </springProfile>
+
+    <!-- 将某一个包下日志单独打印日志 -->
+<!--    <logger name="com.joker.just4fun.g_utils.MybatisGenerator"
+            level="INFO" additivity="false">
+        <appender-ref ref="console" />
+        <appender-ref ref="errorFile" />
+    </logger>-->
+
+    <!-- root（根logger）节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性，默认值是DEBUG
+    可以包含零个或多个元素，标识这个appender将会添加到这个logger。 -->
+    <root level="INFO">
+        <appender-ref ref="console" />
+        <appender-ref ref="debugFile" />
+        <appender-ref ref="errorFile" />
+    </root>
+
+    <!-- 引入Spring Boot对logback的条件配置支持 -->
+    <include resource="org/springframework/boot/logging/logback/optional/logback-spring.xml" />
+</configuration>

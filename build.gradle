@@ -101,7 +101,8 @@ dependencies {
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
 	implementation 'cn.hutool:hutool-json:5.8.25'
 	implementation 'org.realityforge.org.jetbrains.annotations:org.jetbrains.annotations:1.7.0'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+	implementation 'uk.org.lidalia:sysout-over-slf4j:1.0.2'
+	implementation 'com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:4.5.0'
 	/********************分隔线********************/
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'

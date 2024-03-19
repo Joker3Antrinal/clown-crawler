@@ -19,7 +19,7 @@ import java.util.regex.Pattern
  *
  * Mybatis代码自动生成
  *
- * @author Administrator
+ * @author Joker.Y
  * @since 2024/2/29
  * @version 1.0
  */

@@ -32,9 +32,17 @@ spring:
 
 # mybatis配置
 mybatis:
-  mapper-locations: classpath:mapper/*/*Mapper.xml
+  mapper-locations: classpath:mapper/*/*Mapper.xml, mapper/*Mapper.xml
   # 自动扫描并为指定包下的所有类生成别名
   type-aliases-package: com.joker.just4fun.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# mybatis-plus配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*/*Mapper.xml, mapper/*Mapper.xml
+  type-aliases-package: com.joker.just4fun.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
 
 # jasypt加密配置
 jasypt:
@@ -47,6 +55,48 @@ logging:
   config: classpath:logback-spring.xml
   # 配置级别
   level:
+    root: info
     # 分包配置级别，即不同的目录下可以使用不同的级别
     # 日志级别从低到高分为TRACE < DEBUG < INFO < WARN < ERROR，开发环境使用TRACE方便定位问题
     com.joker.just4fun.mapper: trace
+#  logback:
+#    rollingpolicy:
+#      max-file-size: 1GB
+#      max-history: 30
+#      total-size-cap: 50GB
+
+# 定制化swaggerUI
+springdoc:
+  swagger-ui:
+    # 若要使用knife4j的UI，path: /doc.html
+    path: /swagger-ui.html
+    # 标签按字母顺序排序
+    tags-sorter: alpha
+    # 接口操作（HTTP方法与路径名）按字母顺序排序
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  # 对API接口进行分组管理
+#  group-configs:
+#    - group: 'group1'
+#      # 接口路径匹配
+#      paths-to-match: '/**'
+#      packages-to-scan: com.joker.just4fun.controller
+# swaggerUI美化工具设置
+knife4j:
+  # 开启增强模式
+  enable: true
+  # 允许在生产环境中展示API文档（设置为true，则在生产环境部署时，文档入口将会被隐藏，防止公开暴露给外部）
+  production: false
+  # 是否开启基础HTTP认证 (Basic Auth)
+  basic:
+    enable: true
+    username: swagger
+    password: swagger
+  setting:
+    language: zh_cn
+    swagger-model-name: 实体类列表
+    enable-footer-custom: true
+    footer-custom-content: Copyright © 2024 clown_crawler. All rights reserved.
+    enable-filter-multipart-apis: true
+    enable-filter-multipart-api-method-type: GET

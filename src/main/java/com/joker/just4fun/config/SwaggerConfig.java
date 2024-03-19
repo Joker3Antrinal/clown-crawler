@@ -16,7 +16,7 @@ import org.springframework.boot.SpringBootConfiguration;
  *
  * Swagger文档配置
  *
- * @author Administrator
+ * @author Joker.Y
  * @version 1.0
  * @since 2024/3/13
  */
@@ -25,7 +25,7 @@ import org.springframework.boot.SpringBootConfiguration;
 @SecurityScheme(
         name = "Swagger-JWT",//认证方案名称（自定义）
         type = SecuritySchemeType.HTTP,//认证类型，当前为http认证
-        description = "Swagger权限认证口令",//描述信息
+        description = "Swagger权限认证令牌",//描述信息
         in = SecuritySchemeIn.HEADER,//代表在http请求头部
         scheme = "bearer",//认证方案，如：Authorization: bearer token信息
         bearerFormat = "JWT"//表示使用 JWT 格式作为 Bearer Token 的格式
@@ -34,10 +34,10 @@ import org.springframework.boot.SpringBootConfiguration;
 @OpenAPIDefinition(
         /*API的描述信息、联系人信息、授权许可信息等*/
         info = @Info(
-                title = "Swagger3.0(OpenAPI)示例文档",//Api接口文档标题（必填）
-                description = "测试文档",//Api接口文档描述
+                title = "Swagger3.0(OpenAPI)接口文档",//Api接口文档标题（必填）
+                description = "接口文档",//Api接口文档描述
                 version = "1.0.1",//Api接口版本
-                termsOfService = "https://example.com/",//Api接口的服务条款地址
+                termsOfService = "http://doc.xiaominfo.com",//Api接口的服务条款地址
                 contact = @Contact(
                         name = "Joker.Y",//文档发布者名称
                         email = "18584564865@163.com",//文档发布者邮箱

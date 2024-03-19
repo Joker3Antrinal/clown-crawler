@@ -5,19 +5,24 @@
 <configuration scan="true" scanPeriod="10 seconds" debug="false">
 
     <contextName>logback-spring</contextName>
-
+    <!-- spring系统全局参数 -->
+<!--    <springProperty scope="context" name="rootLevel" source="logging.level.root" defaultValue="INFO"/>-->
+<!--    <springProperty scope="context" name="maxFileSize" source="logging.logback.rollingpolicy.max-file-size" defaultValue="100MB"/>-->
+<!--    <springProperty scope="context" name="maxHistory" source="logging.logback.rollingpolicy.max-history" defaultValue="7"/>-->
+<!--    <springProperty scope="context" name="totalSizeCap" source="logging.logback.rollingpolicy.total-size-cap" defaultValue="30GB"/>-->
     <!-- property全局变量设置，方便插值引用 -->
     <property name="LOG_HOME" value="d:/app/logs" />
-    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [%thread] - %cyan(%logger{50}) \t: %msg%n" />
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] - %logger{50} \t: %msg%n" />
     <!-- 日志输出到控制台的appender设置 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <!-- 控制台日志设置内容级别，选用较低级别方便排查问题。
+        <!-- 控制台日志设置内容级别，选用较低级别方便排查问题。ThresholdFilter:简单粗粒度的日志级别过滤。
         注意：基于Spring Boot优先读取原则，application.yml中的日志级别配置通常会覆盖掉logback配置文件中相同logger的级别设置 -->
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
-        </filter>
+<!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+<!--            <level>DEBUG</level>-->
+<!--        </filter>-->
         <encoder>
-            <pattern>${LOG_PATTERN}</pattern>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
@@ -37,12 +42,15 @@
             </timeBasedFileNamingAndTriggeringPolicy>
             <!-- 日志文件保留天数 -->
             <maxHistory>7</maxHistory>
+            <!-- 日志文件大小上限，超过此上限，开始删除旧日志 -->
+            <totalSizeCap>30GB</totalSizeCap>
         </rollingPolicy>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>DEBUG</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
+        <!-- LevelFilter:更为精细的过滤选项，不仅能够设置匹配条件，还可以定义匹配和不匹配时的行为。 -->
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>DEBUG</level>-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMismatch>DENY</onMismatch>-->
+<!--        </filter>-->
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
@@ -61,12 +69,14 @@
             </timeBasedFileNamingAndTriggeringPolicy>
             <!-- 日志文件保留天数 -->
             <maxHistory>15</maxHistory>
+            <!-- 日志文件大小上限，超过此上限，开始删除旧日志 -->
+            <totalSizeCap>30GB</totalSizeCap>
         </rollingPolicy>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>INFO</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>INFO</level>-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMismatch>DENY</onMismatch>-->
+<!--        </filter>-->
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
@@ -85,6 +95,8 @@
             </timeBasedFileNamingAndTriggeringPolicy>
             <!-- 日志文件保留天数 -->
             <maxHistory>30</maxHistory>
+            <!-- 日志文件大小上限，超过此上限，开始删除旧日志 -->
+            <totalSizeCap>30GB</totalSizeCap>
         </rollingPolicy>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -103,6 +115,23 @@
     level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF。
     特殊值：INHERITED或者NULL，代表强制执行上级的级别。如果未设置此属性，那么当前logger将会继承上级的级别。
     additivity:是否向上级logger传递打印信息，默认值是true。 -->
+    <!-- 将某一个包下日志单独打印日志 -->
+<!--    <logger name="com.joker.just4fun"-->
+<!--                level="INFO" additivity="false">-->
+<!--        <appender-ref ref="console" />-->
+<!--        <appender-ref ref="errorFile" />-->
+<!--    </logger>-->
+
+    <!-- root（根logger）节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性，默认值是DEBUG
+    可以包含零个或多个元素，标识这个appender将会添加到这个logger。（注意root下的子节点的最低级别将会被root的级别覆盖） -->
+<!--    <root level="${rootLevel}">-->
+<!--        <appender-ref ref="console" />-->
+<!--        <appender-ref ref="debugFile" />-->
+<!--        <appender-ref ref="infoFile" />-->
+<!--        <appender-ref ref="errorFile" />-->
+<!--    </root>-->
+
+    <!-- 环境读取配置 -->
     <!-- 开发环境 -->
     <springProfile name="dev">
         <property name="LOG_HOME" value="d:/app/logs" />
@@ -146,21 +175,5 @@
 <!--        <logger name="java.sql.Connection" level="ERROR" />-->
 <!--        <logger name="org.springframework" level="ERROR" />-->
     </springProfile>
-
-    <!-- 将某一个包下日志单独打印日志 -->
-<!--    <logger name="com.joker.just4fun.g_utils.MybatisGenerator"
-            level="INFO" additivity="false">
-        <appender-ref ref="console" />
-        <appender-ref ref="errorFile" />
-    </logger>-->
-
-    <!-- root（根logger）节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性，默认值是DEBUG
-    可以包含零个或多个元素，标识这个appender将会添加到这个logger。若没有指定Spring Profile环境变量，将会使用这个配置。 -->
-<!--    <root level="DEBUG">-->
-<!--        <appender-ref ref="console" />-->
-<!--        <appender-ref ref="debugFile" />-->
-<!--        <appender-ref ref="infoFile" />-->
-<!--        <appender-ref ref="errorFile" />-->
-<!--    </root>-->
 
 </configuration>

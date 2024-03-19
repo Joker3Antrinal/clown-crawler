@@ -22,7 +22,10 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 
 /**
- * @author Administrator
+ *
+ * 倒计时小程序
+ *
+ * @author Joker.Y
  * @date 2024/2/5 11:09
  * @version 1.0
  */

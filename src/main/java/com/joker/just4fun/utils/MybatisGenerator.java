@@ -13,7 +13,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author Administrator
+ *
+ * Mybatis代码自动生成
+ *
+ * @author Joker.Y
  * @since 2024/2/29
  * @version 1.0
  */

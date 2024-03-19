@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
  *
  * 配置项参数加密
  *
- * @author Administrator
+ * @author Joker.Y
  * @since 2024/3/1
  * @version 1.0
  */

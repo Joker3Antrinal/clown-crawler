@@ -31,7 +31,6 @@ import lombok.experimental.Accessors;
 @TableName("${schemaName}${table.name}")
 </#if>
 <#if swagger>
-<#--@ApiModel(value = "${entity}对象", description = "${table.comment!}")-->
 @Schema(name = "${entity}对象", title = "${entity}对象", description = "${table.comment!}")
 </#if>
 <#if superEntityClass??>

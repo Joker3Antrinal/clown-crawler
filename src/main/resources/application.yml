@@ -4,7 +4,7 @@ server:
   address: 0.0.0.0
   servlet.context-path: /clownCrawler
 
-
+# spring相关配置
 spring:
   # 环境配置
   profiles:
@@ -77,11 +77,11 @@ springdoc:
   api-docs:
     path: /v3/api-docs
   # 对API接口进行分组管理
-#  group-configs:
-#    - group: 'group1'
-#      # 接口路径匹配
-#      paths-to-match: '/**'
-#      packages-to-scan: com.joker.just4fun.controller
+  group-configs:
+    - group: 'data_model_ctrl'
+      # 接口路径匹配
+      paths-to-match: '/**'
+      packages-to-scan: com.joker.just4fun.controller
 # swaggerUI美化工具设置
 knife4j:
   # 开启增强模式
@@ -94,9 +94,15 @@ knife4j:
     username: swagger
     password: swagger
   setting:
-    language: zh_cn
-    swagger-model-name: 实体类列表
+    # 请求和响应数据结构模型（Schemas）菜单
+    swagger-model-name: 接口实体类参数列表
     enable-footer-custom: true
     footer-custom-content: Copyright © 2024 clown_crawler. All rights reserved.
+    # 开启RequestMapping接口过滤，默认只显示GET
     enable-filter-multipart-apis: true
     enable-filter-multipart-api-method-type: GET
+
+# chromedriver相关配置
+webdriver:
+  driver-path: D:\\chrome\\webdriver\\chromedriver-v123-win64\\chromedriver-win64\\chromedriver.exe
+  headless-mode: false

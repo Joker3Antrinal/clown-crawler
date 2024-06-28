@@ -44,7 +44,7 @@ group = 'com.joker.just4fun'
 version = '1.0-SNAPSHOT'
 
 /* 指定java版本
- sourceCompatibility：指定编译编译.java文件的jdk版本（Java源代码兼容的版本）
+ sourceCompatibility：指定编译.java文件的jdk版本（Java源代码兼容的版本）
  targetCompatibility：Java目标字节码的版本，确保.class文件与targetCompatibility指定版本，或者更新的java虚拟机兼容
  1.sourceCompatibility关系到项目使用到的Java语法特性及库
  2.sourceCompatibility不能比targetCompatibility大
@@ -56,7 +56,6 @@ java {
 	targetCompatibility = '17'
 }
 
-
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -67,7 +66,6 @@ configurations {
 repositories {
 	// 优先使用本地的maven仓库
 	mavenLocal()
-	jcenter()
 	mavenCentral()
 	maven { url "https://repo.spring.io/plugins-release" }
 	maven { name "Alibaba"; url 'https://maven.aliyun.com/repository/public' }
@@ -103,6 +101,11 @@ dependencies {
 	implementation 'org.realityforge.org.jetbrains.annotations:org.jetbrains.annotations:1.7.0'
 	implementation 'uk.org.lidalia:sysout-over-slf4j:1.0.2'
 	implementation 'com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:4.5.0'
+	implementation 'org.apache.httpcomponents.client5:httpclient5:5.3.1'
+	implementation 'org.jsoup:jsoup:1.15.3'
+	implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.16.1'
+	implementation 'org.seleniumhq.selenium:selenium-java:4.20.0'
+	implementation 'org.apache.poi:poi:4.1.2'
 	/********************分隔线********************/
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'

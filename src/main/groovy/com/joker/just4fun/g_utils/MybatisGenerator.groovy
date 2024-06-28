@@ -43,7 +43,7 @@ class MybatisGenerator {
     private static final Scanner SCANNER = new Scanner(System.in)
 
     static void main(String[] args) {
-        def generator = new MybatisGenerator()
+        def generator = new com.joker.just4fun.utils.MybatisGenerator()
         generator.generateCode()
     }
 

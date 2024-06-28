@@ -43,7 +43,7 @@ public class MybatisGenerator {
                         String packageName = verifyPath(scanner.apply("请输入包名，基础包路径com.joker.just4fun无需键入："));
                         String moduleName = verifyPath(scanner.apply("请输入模块名："));
                         builder.parent("com.joker.just4fun" + packageName)//设置包路径
-                                .moduleName(moduleName.replace(".", ""))//设置模块路径
+                                .moduleName(moduleName.replaceFirst("\\.", ""))//设置模块路径
                                 .entity("entity" + moduleName)//设置表实体路径
                                 .xml("mapper" + moduleName)//设置mapper.xml文件路径
                                 .mapper("mapper" + moduleName)//设置mapper映射文件路径

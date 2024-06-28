@@ -17,8 +17,8 @@ import org.springframework.boot.SpringBootConfiguration;
  * Swagger文档配置
  *
  * @author Joker.Y
- * @version 1.0
  * @since 2024/3/13
+ * @version 1.0
  */
 @SpringBootConfiguration
 /*权限认证设置*/
@@ -34,9 +34,9 @@ import org.springframework.boot.SpringBootConfiguration;
 @OpenAPIDefinition(
         /*API的描述信息、联系人信息、授权许可信息等*/
         info = @Info(
-                title = "Swagger3.0(OpenAPI)接口文档",//Api接口文档标题（必填）
-                description = "接口文档",//Api接口文档描述
-                version = "1.0.1",//Api接口版本
+                title = "clown-crawler接口文档",//Api接口文档标题（必填）
+                description = "Swagger3.0(OpenAPI)接口文档",//Api接口文档描述
+                version = "v1.0",//Api接口版本
                 termsOfService = "http://doc.xiaominfo.com",//Api接口的服务条款地址
                 contact = @Contact(
                         name = "Joker.Y",//文档发布者名称
